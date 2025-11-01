@@ -42,30 +42,34 @@ export const postChat = async (data) => {
 const ARDUINO_IP = `${process.env.ARDUINO_IP}`;
 
 export const interpretarComandoIA = async(texto) => {
+    const PALABRAS = {
+        on: ["enciende", "encender", "prende", "activar", "activa", "ilumina", "on"],
+        off: ["apaga", "apagar", "desactiva", "desactivar", "oscurece", "off"]
+    };
+
     texto = texto.toLowerCase();
+    const encender = contienePalabra(texto, PALABRAS.on);
+    const apagar = contienePalabra(texto, PALABRAS.off);
 
-    console.log(ARDUINO_IP);
-
-    // LED 1
-    if (texto.includes("1") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
-        await fetch(`${ARDUINO_IP}/led1/on`);
-    } else if (texto.includes("1") && (texto.includes("apaga") || texto.includes("desactiva"))) {
-        await fetch(`${ARDUINO_IP}/led1/off`);
+    if (!encender && !apagar) {
+        console.log("No se detectó una acción de encendido o apagado.");
+        return;
     }
-
-    // LED 2
-    if (texto.includes("2") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
-        await fetch(`${ARDUINO_IP}/led2/on`);
-    } else if (texto.includes("2") && (texto.includes("apaga") || texto.includes("desactiva"))) {
-        await fetch(`${ARDUINO_IP}/led2/off`);
-    }
-
-    // LED 3
-    if (texto.includes("3") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
-        await fetch(`${ARDUINO_IP}/led3/on`);
-    } else if (texto.includes("3") && (texto.includes("apaga") || texto.includes("desactiva"))) {
-        await fetch(`${ARDUINO_IP}/led3/off`);
+    //Rutas de los leds
+    if (texto.includes("1") || texto.includes("led 1") || texto.includes("primer led")) {
+        await fetch(`${ARDUINO_IP}/led1/${esEncender ? "on" : "off"}`);
+    } else if (texto.includes("2") || texto.includes("led 2") || texto.includes("segundo led")) {
+        await fetch(`${ARDUINO_IP}/led2/${esEncender ? "on" : "off"}`);
+    } else if (texto.includes("3") || texto.includes("led 3") || texto.includes("tercer led")) {
+        await fetch(`${ARDUINO_IP}/led3/${esEncender ? "on" : "off"}`);
+    } else {
+        console.log("No se detectó un número de LED en la respuesta de la IA");
     }
 }
+
+function contienePalabra(texto, lista) {
+    return lista.some(palabra => texto.includes(palabra));
+}
+
 
 
