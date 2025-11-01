@@ -38,3 +38,34 @@ export const postChat = async (data) => {
         return { error: true, message: error.message };
     }
 };
+
+const ARDUINO_IP = `${process.env.ARDUINO_IP}`;
+
+export const interpretarComandoIA = async(texto) => {
+    texto = texto.toLowerCase();
+
+    console.log(ARDUINO_IP);
+
+    // LED 1
+    if (texto.includes("1") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
+        await fetch(`${ARDUINO_IP}/led1/on`);
+    } else if (texto.includes("1") && (texto.includes("apaga") || texto.includes("desactiva"))) {
+        await fetch(`${ARDUINO_IP}/led1/off`);
+    }
+
+    // LED 2
+    if (texto.includes("2") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
+        await fetch(`${ARDUINO_IP}/led2/on`);
+    } else if (texto.includes("2") && (texto.includes("apaga") || texto.includes("desactiva"))) {
+        await fetch(`${ARDUINO_IP}/led2/off`);
+    }
+
+    // LED 3
+    if (texto.includes("3") && (texto.includes("enciende") || texto.includes("prende") || texto.includes("activa"))) {
+        await fetch(`${ARDUINO_IP}/led3/on`);
+    } else if (texto.includes("3") && (texto.includes("apaga") || texto.includes("desactiva"))) {
+        await fetch(`${ARDUINO_IP}/led3/off`);
+    }
+}
+
+

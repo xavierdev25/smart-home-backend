@@ -34,6 +34,7 @@ export const postChat = async (req, res) => {
                 .status(500)
                 .json({ error: "Respuesta inesperada o vacía del modelo de IA." });
         }
+        await interpretarComandoIA(contenidoRespuesta);
         // se envia la respuesta
         console.log(`Respuesta: "${contenidoRespuesta}"`);
         res.json({ respuesta: contenidoRespuesta });
