@@ -18,5 +18,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`Servidor escuchando en http://${process.env.RED_LOCAL}:${PORT}`);
 });
