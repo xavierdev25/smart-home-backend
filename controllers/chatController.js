@@ -44,3 +44,25 @@ export const postChat = async (req, res) => {
         res.status(500).json({ error: "Error" });
     }
 };
+
+export const onLED = async (req, res) => {
+    try {
+        const { num } = req.params;
+        await chatService.controlarLed(`enciende el led ${num}`);
+        res.json({ status: `LED ${num} encendido` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error" });
+    }
+}
+
+export const offLED = async (req, res) => {
+    try {
+        const { num } = req.params;
+        await chatService.controlarLed(`apaga el led ${num}`);
+        res.json({ status: `LED ${num} apagado` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error" });
+    }
+}
