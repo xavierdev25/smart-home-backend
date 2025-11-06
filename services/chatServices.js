@@ -93,7 +93,7 @@ const enviarAArduino = (command) => {
     });
 };
 
-// Interpreta lo que respondió la IA y ejecuta el comando adecuado
+
 export const controlarLed = async (texto) => {
 
     const PALABRAS = {
@@ -109,7 +109,7 @@ export const controlarLed = async (texto) => {
     if (apagar) accion = "OFF";
 
     if (!accion) {
-        console.log("ℹ️ No se detectó una acción de encendido/apagado.");
+        console.log("ℹNo se detectó una acción de encendido/apagado.");
         return;
     }
 
@@ -123,6 +123,6 @@ export const controlarLed = async (texto) => {
         return;
     }
 
-    const comando = `LED${led}_${accion}`;
+    const comando = `LED${led}/${accion}`;
     await enviarAArduino(comando);
 };
